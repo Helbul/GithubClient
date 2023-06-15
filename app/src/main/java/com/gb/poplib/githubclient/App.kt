@@ -1,0 +1,26 @@
+package com.gb.poplib.githubclient
+
+import android.app.Application
+import com.gb.poplib.githubclient.navigation.AndroidScreens
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.Router
+
+class App : Application() {
+    companion object {
+        lateinit var instance: App
+        lateinit var androidScreens : AndroidScreens
+    }
+
+    private val cicerone: Cicerone<Router> by lazy {
+        Cicerone.create()
+    }
+
+    val navigatorHolder get() = cicerone.getNavigatorHolder()
+    val router get() = cicerone.router
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        androidScreens = AndroidScreens()
+    }
+}
