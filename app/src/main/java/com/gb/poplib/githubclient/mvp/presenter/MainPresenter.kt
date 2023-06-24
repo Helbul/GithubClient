@@ -9,7 +9,7 @@ class MainPresenter(val router: Router) : MvpPresenter<MainView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        router.replaceScreen(App.androidScreens.users())
+        router.replaceScreen(App.instance.androidScreens.users())
     }
 
     fun backClicked() {

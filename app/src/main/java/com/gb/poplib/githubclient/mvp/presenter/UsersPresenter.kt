@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPresenter<UsersView>() {
+
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
 
@@ -35,7 +36,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPr
         loadData()
 
         usersListPresenter.itemClickListener = {itemView ->
-            router.navigateTo(App.androidScreens.user(itemView.pos))
+            router.navigateTo(App.instance.androidScreens.user(itemView.pos))
         }
     }
 

@@ -7,4 +7,6 @@
 
     <string name="login">login</string>
     <string name="user">user</string>
+
+    <string name="convert">convert jpg</string>
 </resources>
