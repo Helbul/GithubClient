@@ -6,7 +6,6 @@ import com.gb.poplib.githubclient.R
 import com.gb.poplib.githubclient.databinding.ActivityMainBinding
 import com.gb.poplib.githubclient.mvp.presenter.MainPresenter
 import com.gb.poplib.githubclient.mvp.view.MainView
-import com.gb.poplib.githubclient.rxjavatest.Operators
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
@@ -15,7 +14,7 @@ import moxy.ktx.moxyPresenter
 class MainActivity : MvpAppCompatActivity(), MainView {
     private var vb: ActivityMainBinding? = null
     private val presenter by moxyPresenter {
-        MainPresenter(App.instance.router)
+        MainPresenter(App.instance.router, App.instance.screens)
     }
 
     val navigator = AppNavigator(this, R.id.container)
@@ -26,7 +25,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
 
-        Operators().exec()
     }
 
     override fun onResumeFragments() {

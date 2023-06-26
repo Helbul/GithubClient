@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentUserDetailsBinding
-import com.gb.poplib.githubclient.mvp.model.GithubUsersRepo
+import com.gb.poplib.githubclient.mvp.model.entity.GithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.UserDetailsPresenter
 import com.gb.poplib.githubclient.mvp.view.UserDetailsView
 import com.gb.poplib.githubclient.ui.activity.BackButtonListener

@@ -1,17 +1,25 @@
 package com.gb.poplib.githubclient.mvp.presenter
 
 import com.gb.poplib.githubclient.App
-import com.gb.poplib.githubclient.mvp.model.GithubUser
-import com.gb.poplib.githubclient.mvp.model.GithubUsersRepo
+import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
+import com.gb.poplib.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.list.IUserListPresenter
 import com.gb.poplib.githubclient.mvp.view.UsersView
 import com.gb.poplib.githubclient.mvp.view.list.UserItemView
+import com.gb.poplib.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPresenter<UsersView>() {
+class UsersPresenter(
+    val uiScheduler: Scheduler,
+    val usersRepo: IGithubUsersRepo,
+    val router: Router,
+    val screens: IScreens
+) : MvpPresenter<UsersView>() {
+
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
 
@@ -19,7 +27,12 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPr
 
         override fun bindView(view: UserItemView) {
             val user = users[view.pos]
-            view.setLogin(user.login)
+            user.login?.let {
+                view.setLogin(it)
+            }
+            user.avatarUrl?.let {
+                view.loadAvatar(it)
+            }
         }
 
         override fun getCount() = users.size
@@ -35,13 +48,18 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPr
         loadData()
 
         usersListPresenter.itemClickListener = {itemView ->
-            router.navigateTo(App.androidScreens.user(itemView.pos))
+            router.navigateTo(App.instance.screens.user(itemView.pos))
         }
     }
 
     fun loadData() {
-        execFromIterable()
-        viewState.updateList()
+        usersRepo.getUsers()
+            .observeOn(uiScheduler)
+            .subscribe { repos ->
+                usersListPresenter.users.clear()
+                usersListPresenter.users.addAll(repos)
+                viewState.updateList()
+            }
     }
 
     fun backPressed(): Boolean {
@@ -49,31 +67,4 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPr
         return true
     }
 
-    private val userObserver = object : Observer<GithubUser> {
-        var disposable: Disposable? = null
-
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-            println("onSubscribe")
-
-        }
-
-        override fun onNext(t: GithubUser) {
-            println("onNext: $t")
-            usersListPresenter.users.add(t)
-        }
-
-        override fun onError(e: Throwable) {
-            println("onError: ${e?.message}")
-        }
-
-        override fun onComplete() {
-            println("onComplete")
-        }
-    }
-
-    fun execFromIterable() {
-        usersRepo.fromIterable()
-            .subscribe(userObserver)
-    }
 }
