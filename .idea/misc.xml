@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/activity_converter.xml" value="0.25" />
         <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/fragment_converter.xml" value="0.25" />
+        <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/fragment_forks_count.xml" value="0.2359375" />
+        <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/fragment_repos.xml" value="0.2359375" />
         <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/fragment_user_details.xml" value="0.2359375" />
         <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/fragment_users.xml" value="0.25" />
+        <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/item_repos.xml" value="0.2359375" />
         <entry key="..\:/Users/79524/GithubClient/app/src/main/res/layout/item_user.xml" value="0.25" />
       </map>
     </option>

@@ -7,4 +7,9 @@
 
     <string name="login">login</string>
     <string name="user">user</string>
+
+    <string name="repos">repos</string>
+    <string name="number_of_forks">Number of forks</string>
+    <string name="count_repo">count</string>
+
 </resources>
