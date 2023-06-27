@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentUsersBinding
 import com.gb.poplib.githubclient.mvp.model.api.ApiHolder
-import com.gb.poplib.githubclient.mvp.model.entity.GithubUsersRepo
 import com.gb.poplib.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.UsersPresenter
 import com.gb.poplib.githubclient.mvp.view.UsersView

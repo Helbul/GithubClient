@@ -8,14 +8,12 @@ import com.gb.poplib.githubclient.mvp.view.UsersView
 import com.gb.poplib.githubclient.mvp.view.list.UserItemView
 import com.gb.poplib.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
-    val uiScheduler: Scheduler,
-    val usersRepo: IGithubUsersRepo,
+    private val uiScheduler: Scheduler,
+    private val usersRepo: IGithubUsersRepo,
     val router: Router,
     val screens: IScreens
 ) : MvpPresenter<UsersView>() {
@@ -48,11 +46,11 @@ class UsersPresenter(
         loadData()
 
         usersListPresenter.itemClickListener = {itemView ->
-            router.navigateTo(App.instance.screens.user(itemView.pos))
+            router.navigateTo(App.instance.screens.repos(usersListPresenter.users[itemView.pos]))
         }
     }
 
-    fun loadData() {
+    private fun loadData() {
         usersRepo.getUsers()
             .observeOn(uiScheduler)
             .subscribe { repos ->
