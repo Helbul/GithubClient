@@ -8,6 +8,8 @@ import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentReposBinding
 import com.gb.poplib.githubclient.mvp.model.api.ApiHolder
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
+import com.gb.poplib.githubclient.mvp.model.entity.room.Database
+import com.gb.poplib.githubclient.mvp.model.repo.cache.room.RoomReposCache
 import com.gb.poplib.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserReposRepo
 import com.gb.poplib.githubclient.mvp.presenter.UserReposPresenter
 import com.gb.poplib.githubclient.mvp.view.ReposView
@@ -42,7 +44,7 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
         UserReposPresenter(
             user,
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUserReposRepo(ApiHolder.api),
+            RetrofitGithubUserReposRepo(ApiHolder.api, App.networkStatus, RoomReposCache(Database.getInstance())),
             App.instance.router,
             App.instance.screens
         )
