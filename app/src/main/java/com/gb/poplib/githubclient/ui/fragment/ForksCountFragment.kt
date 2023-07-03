@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentForksCountBinding
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUserRepos
 import com.gb.poplib.githubclient.mvp.presenter.ForksCountPresenter
@@ -33,7 +32,7 @@ class ForksCountFragment : MvpAppCompatFragment(), ForksCountView, BackButtonLis
         get() = _binding!!
 
     val presenter: ForksCountPresenter by moxyPresenter {
-        ForksCountPresenter(App.instance.router)
+        ForksCountPresenter()
     }
 
     override fun onCreateView(
