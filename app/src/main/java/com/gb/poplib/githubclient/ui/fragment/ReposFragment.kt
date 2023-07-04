@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentReposBinding
-import com.gb.poplib.githubclient.mvp.model.api.ApiHolder
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
 import com.gb.poplib.githubclient.mvp.model.entity.room.Database
 import com.gb.poplib.githubclient.mvp.model.network.INetworkStatus
-import com.gb.poplib.githubclient.mvp.model.repo.cache.room.RoomReposCache
-import com.gb.poplib.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserReposRepo
 import com.gb.poplib.githubclient.mvp.presenter.UserReposPresenter
 import com.gb.poplib.githubclient.mvp.view.ReposView
 import com.gb.poplib.githubclient.navigation.IScreens
@@ -19,7 +16,6 @@ import com.gb.poplib.githubclient.ui.activity.BackButtonListener
 import com.gb.poplib.githubclient.ui.adapter.ReposRVAdapter
 import com.gb.poplib.githubclient.ui.image.GlideImageLoader
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -33,8 +29,6 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
             arguments = Bundle().apply {
                 putParcelable(KEY_REPOS, user)
             }
-
-            App.instance.appComponent.inject(this)
         }
     }
 
@@ -60,12 +54,10 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
     val presenter: UserReposPresenter by moxyPresenter {
         val user = arguments?.getParcelable(KEY_REPOS) as GithubUser?
         UserReposPresenter(
-            user,
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUserReposRepo(ApiHolder.api, networkStatus, RoomReposCache(database)),
-            router,
-            screens
-        )
+            user
+        ).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(

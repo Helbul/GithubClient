@@ -17,11 +17,18 @@ class RepoModule {
 
     @Singleton
     @Provides
-    fun usersRepo(api: IDataSource, networkStatus: INetworkStatus, cache: IUserCache)
-            : IGithubUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, cache)
+    fun usersRepo(
+        api: IDataSource,
+        networkStatus:
+        INetworkStatus,
+        cache: IUserCache
+    ) : IGithubUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, cache)
 
     @Singleton
     @Provides
-    fun repositoriesRepo(api: IDataSource, networkStatus: INetworkStatus, cache: IReposCache)
-            : IGithubUserReposRepo = RetrofitGithubUserReposRepo(api, networkStatus, cache)
+    fun repositoriesRepo(
+        api: IDataSource,
+        networkStatus: INetworkStatus,
+        cache: IReposCache
+    ) : IGithubUserReposRepo = RetrofitGithubUserReposRepo(api, networkStatus, cache)
 }

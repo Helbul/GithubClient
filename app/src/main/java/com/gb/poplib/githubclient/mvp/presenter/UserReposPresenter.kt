@@ -10,15 +10,27 @@ import com.gb.poplib.githubclient.mvp.view.list.IReposItemView
 import com.gb.poplib.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UserReposPresenter (
-    val user: GithubUser?,
-    val uiScheduler: Scheduler,
-    val usersRepo: IGithubUserReposRepo,
-    val router: Router,
-    val screens: IScreens
+    val user: GithubUser?
 ) : MvpPresenter<ReposView>(){
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
+
+    @Inject
+    lateinit var repositoriesRepo: IGithubUserReposRepo
+
+    private var compositeDisposable = CompositeDisposable()
 
     class UserReposListPresenter : IUserReposListPresenter {
         val repos = mutableListOf<GithubUserRepos>()
@@ -52,12 +64,14 @@ class UserReposPresenter (
 
     fun loadData() {
         user?.let {
-            usersRepo.getRepos(user)
+            repositoriesRepo.getRepos(user)
                 .observeOn(uiScheduler)
-                .subscribe {repos ->
+                .subscribe { repos ->
                     userReposListPresenter.repos.clear()
                     userReposListPresenter.repos.addAll(repos)
                     viewState.updateList()
+                }.let {
+                    compositeDisposable.add(it)
                 }
         }
     }
@@ -66,5 +80,10 @@ class UserReposPresenter (
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 }
