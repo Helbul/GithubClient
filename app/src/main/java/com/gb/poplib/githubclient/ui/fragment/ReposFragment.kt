@@ -6,30 +6,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentReposBinding
-import com.gb.poplib.githubclient.mvp.model.api.ApiHolder
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
 import com.gb.poplib.githubclient.mvp.model.entity.room.Database
-import com.gb.poplib.githubclient.mvp.model.repo.cache.room.RoomReposCache
-import com.gb.poplib.githubclient.mvp.model.repo.retrofit.RetrofitGithubUserReposRepo
+import com.gb.poplib.githubclient.mvp.model.network.INetworkStatus
 import com.gb.poplib.githubclient.mvp.presenter.UserReposPresenter
 import com.gb.poplib.githubclient.mvp.view.ReposView
+import com.gb.poplib.githubclient.navigation.IScreens
 import com.gb.poplib.githubclient.ui.activity.BackButtonListener
 import com.gb.poplib.githubclient.ui.adapter.ReposRVAdapter
 import com.gb.poplib.githubclient.ui.image.GlideImageLoader
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
 
     companion object {
         const val KEY_REPOS = "KEY_REPOS"
-        fun newInstance(user: GithubUser): ReposFragment{
-            val args = Bundle()
-            args.putParcelable(KEY_REPOS, user)
-            val fragment = ReposFragment()
-            fragment.arguments = args
-            return fragment
+
+        fun newInstance(user: GithubUser) = ReposFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(KEY_REPOS, user)
+            }
         }
     }
 
@@ -37,17 +36,28 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
     private val binding
         get() = _binding!!
 
+
+    @Inject
+    lateinit var database: Database
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var networkStatus: INetworkStatus
+
     private var adapter: ReposRVAdapter? = null
 
     val presenter: UserReposPresenter by moxyPresenter {
         val user = arguments?.getParcelable(KEY_REPOS) as GithubUser?
         UserReposPresenter(
-            user,
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUserReposRepo(ApiHolder.api, App.networkStatus, RoomReposCache(Database.getInstance())),
-            App.instance.router,
-            App.instance.screens
-        )
+            user
+        ).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(

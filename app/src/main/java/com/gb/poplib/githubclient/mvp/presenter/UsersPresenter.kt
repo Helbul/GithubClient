@@ -1,6 +1,5 @@
 package com.gb.poplib.githubclient.mvp.presenter
 
-import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
 import com.gb.poplib.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.list.IUserListPresenter
@@ -10,13 +9,18 @@ import com.gb.poplib.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class UsersPresenter(
-    private val uiScheduler: Scheduler,
-    private val usersRepo: IGithubUsersRepo,
-    val router: Router,
-    val screens: IScreens
-) : MvpPresenter<UsersView>() {
+class UsersPresenter(private val uiScheduler: Scheduler) : MvpPresenter<UsersView>() {
+
+    @Inject
+    lateinit var usersRepo: IGithubUsersRepo
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()

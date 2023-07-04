@@ -6,15 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentUsersBinding
-import com.gb.poplib.githubclient.mvp.model.api.ApiHolder
-import com.gb.poplib.githubclient.mvp.model.entity.room.Database
-import com.gb.poplib.githubclient.mvp.model.repo.cache.room.RoomUserCache
-import com.gb.poplib.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.UsersPresenter
 import com.gb.poplib.githubclient.mvp.view.UsersView
 import com.gb.poplib.githubclient.ui.activity.BackButtonListener
 import com.gb.poplib.githubclient.ui.adapter.UsersRVAdapter
-import com.gb.poplib.githubclient.ui.image.GlideImageLoader
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -27,11 +22,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     var adapter: UsersRVAdapter? = null
 
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepo(ApiHolder.api, App.networkStatus, RoomUserCache(Database.getInstance())),
-            App.instance.router,
-            App.instance.screens)
+        UsersPresenter(AndroidSchedulers.mainThread()).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     companion object {
@@ -50,7 +43,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         binding.rvUsers?.layoutManager = LinearLayoutManager(context)
-        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
+        adapter = UsersRVAdapter(presenter.usersListPresenter).apply {
+            App.instance.appComponent.inject(this)
+        }
         binding.rvUsers?.adapter = adapter
     }
 
