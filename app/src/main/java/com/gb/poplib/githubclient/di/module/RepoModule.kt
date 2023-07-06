@@ -12,23 +12,23 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module
-class RepoModule {
-
-    @Singleton
-    @Provides
-    fun usersRepo(
-        api: IDataSource,
-        networkStatus:
-        INetworkStatus,
-        cache: IUserCache
-    ) : IGithubUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, cache)
-
-    @Singleton
-    @Provides
-    fun repositoriesRepo(
-        api: IDataSource,
-        networkStatus: INetworkStatus,
-        cache: IReposCache
-    ) : IGithubUserReposRepo = RetrofitGithubUserReposRepo(api, networkStatus, cache)
-}
+//@Module
+//class RepoModule {
+//
+//    @Singleton
+//    @Provides
+//    fun usersRepo(
+//        api: IDataSource,
+//        networkStatus:
+//        INetworkStatus,
+//        cache: IUserCache
+//    ) : IGithubUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, cache)
+//
+//    @Singleton
+//    @Provides
+//    fun repositoriesRepo(
+//        api: IDataSource,
+//        networkStatus: INetworkStatus,
+//        cache: IReposCache
+//    ) : IGithubUserReposRepo = RetrofitGithubUserReposRepo(api, networkStatus, cache)
+//}

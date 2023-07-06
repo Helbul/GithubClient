@@ -37,17 +37,17 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
         get() = _binding!!
 
 
-    @Inject
-    lateinit var database: Database
-
-    @Inject
-    lateinit var router: Router
-
-    @Inject
-    lateinit var screens: IScreens
-
-    @Inject
-    lateinit var networkStatus: INetworkStatus
+//    @Inject
+//    lateinit var database: Database
+//
+//    @Inject
+//    lateinit var router: Router
+//
+//    @Inject
+//    lateinit var screens: IScreens
+//
+//    @Inject
+//    lateinit var networkStatus: INetworkStatus
 
     private var adapter: ReposRVAdapter? = null
 
@@ -56,7 +56,7 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
         UserReposPresenter(
             user
         ).apply {
-            App.instance.appComponent.inject(this)
+            App.instance.initReposSubcomponent()?.inject(this)
         }
     }
 

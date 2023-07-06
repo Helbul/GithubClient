@@ -19,13 +19,13 @@ class CacheModule {
     fun database(app: App): Database = Room.databaseBuilder(app, Database::class.java, Database.DB_NAME)
         .build()
 
-    @Singleton
-    @Provides
-    fun usersCache(database: Database): IUserCache = RoomUserCache(database)
-
-    @Singleton
-    @Provides
-    fun repositoriesCache(database: Database): IReposCache {
-        return RoomReposCache(database)
-    }
+//    @Singleton
+//    @Provides
+//    fun usersCache(database: Database): IUserCache = RoomUserCache(database)
+//
+//    @Singleton
+//    @Provides
+//    fun repositoriesCache(database: Database): IReposCache {
+//        return RoomReposCache(database)
+//    }
 }

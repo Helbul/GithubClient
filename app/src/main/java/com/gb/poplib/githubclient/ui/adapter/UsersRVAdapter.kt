@@ -14,7 +14,6 @@ const val INVALID_INDEX = -1
 
 class UsersRVAdapter(
     val presenter: IUserListPresenter,
-    //val imageLoader : IImageLoader<ImageView>
 ) : RecyclerView.Adapter<UsersRVAdapter.ViewHolder>(){
 
     @Inject
