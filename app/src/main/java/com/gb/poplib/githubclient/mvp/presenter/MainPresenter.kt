@@ -1,6 +1,5 @@
 package com.gb.poplib.githubclient.mvp.presenter
 
-import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.mvp.view.MainView
 import com.gb.poplib.githubclient.navigation.IScreens
 import com.github.terrakok.cicerone.Router

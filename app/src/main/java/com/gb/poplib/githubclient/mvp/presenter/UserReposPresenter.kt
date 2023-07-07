@@ -1,8 +1,6 @@
 package com.gb.poplib.githubclient.mvp.presenter
 
-import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.di.module.repos.module.IReposScopeContainer
-import com.gb.poplib.githubclient.di.module.users.module.IUsersScopeContainer
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUserRepos
 import com.gb.poplib.githubclient.mvp.model.repo.IGithubUserReposRepo

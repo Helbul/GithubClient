@@ -48,13 +48,6 @@ class ForksCountFragment() : MvpAppCompatFragment(), ForksCountView, BackButtonL
     }.root
 
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        arguments?.getParcelable<GithubUserRepos>(KEY_FORKS_COUNT)?.let {
-//            presenter.showForksCount(it)
-//        }
-//    }
-
     override fun countForks(forks: String) {
         binding.tvForksCount.text = forks
     }

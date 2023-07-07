@@ -11,10 +11,6 @@ class ForksCountPresenter(val repos: GithubUserRepos) : MvpPresenter<ForksCountV
     @Inject
     lateinit var router: Router
 
-//    fun  showForksCount(repos: GithubUserRepos) {
-//        viewState.countForks(repos.forksCount.toString())
-//    }
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.countForks(repos.forksCount.toString())

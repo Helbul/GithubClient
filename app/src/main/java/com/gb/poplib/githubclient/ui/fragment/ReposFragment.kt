@@ -7,18 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentReposBinding
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
-import com.gb.poplib.githubclient.mvp.model.entity.room.Database
-import com.gb.poplib.githubclient.mvp.model.network.INetworkStatus
 import com.gb.poplib.githubclient.mvp.presenter.UserReposPresenter
 import com.gb.poplib.githubclient.mvp.view.ReposView
-import com.gb.poplib.githubclient.navigation.IScreens
 import com.gb.poplib.githubclient.ui.activity.BackButtonListener
 import com.gb.poplib.githubclient.ui.adapter.ReposRVAdapter
 import com.gb.poplib.githubclient.ui.image.GlideImageLoader
-import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import javax.inject.Inject
 
 class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
 
@@ -36,18 +31,6 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
     private val binding
         get() = _binding!!
 
-
-//    @Inject
-//    lateinit var database: Database
-//
-//    @Inject
-//    lateinit var router: Router
-//
-//    @Inject
-//    lateinit var screens: IScreens
-//
-//    @Inject
-//    lateinit var networkStatus: INetworkStatus
 
     private var adapter: ReposRVAdapter? = null
 
@@ -78,6 +61,8 @@ class ReposFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
         adapter = ReposRVAdapter(presenter.userReposListPresenter)
         binding.rvRepos.adapter = adapter
         binding.tvUserLogin.text = user.login
+        binding.tvUserName.text = user.name
+        binding.tvUserFollowers.text = user.followers.toString()
         user.avatarUrl?.let {
             GlideImageLoader().loadInto(it, binding.ivUserAvatar)
         }
