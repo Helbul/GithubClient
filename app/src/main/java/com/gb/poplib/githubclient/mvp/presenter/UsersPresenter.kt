@@ -1,5 +1,6 @@
 package com.gb.poplib.githubclient.mvp.presenter
 
+import com.gb.poplib.githubclient.di.module.users.module.IUsersScopeContainer
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUser
 import com.gb.poplib.githubclient.mvp.model.repo.IGithubUsersRepo
 import com.gb.poplib.githubclient.mvp.presenter.list.IUserListPresenter
@@ -21,6 +22,9 @@ class UsersPresenter(private val uiScheduler: Scheduler) : MvpPresenter<UsersVie
 
     @Inject
     lateinit var screens: IScreens
+
+    @Inject
+    lateinit var usersScopeContainer: IUsersScopeContainer
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -67,6 +71,11 @@ class UsersPresenter(private val uiScheduler: Scheduler) : MvpPresenter<UsersVie
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        usersScopeContainer.releaseUsersScope()
+        super.onDestroy()
     }
 
 }

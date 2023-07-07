@@ -6,12 +6,13 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class ForksCountPresenter() : MvpPresenter<ForksCountView>(){
+class ForksCountPresenter(val repos: GithubUserRepos) : MvpPresenter<ForksCountView>(){
 
     @Inject
     lateinit var router: Router
 
-    fun  showForksCount(repos: GithubUserRepos) {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
         viewState.countForks(repos.forksCount.toString())
     }
 

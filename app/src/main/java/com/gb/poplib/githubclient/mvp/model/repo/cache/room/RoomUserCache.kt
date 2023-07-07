@@ -14,7 +14,9 @@ class RoomUserCache (private val db: Database): IUserCache {
                 user.id ?: "",
                 user.login ?: "",
                 user.avatarUrl ?: "",
-                user.reposUrl ?: ""
+                user.reposUrl ?: "",
+                user.name ?: "",
+                user.followers ?: 0
             )
         })
     }
@@ -25,7 +27,9 @@ class RoomUserCache (private val db: Database): IUserCache {
                 roomUser.id,
                 roomUser.login,
                 roomUser.avatarUrl,
-                roomUser.reposUrl)
+                roomUser.reposUrl,
+                roomUser.name,
+                roomUser.followers)
         }
 
 }

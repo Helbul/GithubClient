@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.gb.poplib.githubclient.App
 import com.gb.poplib.githubclient.databinding.FragmentForksCountBinding
 import com.gb.poplib.githubclient.mvp.model.entity.GithubUserRepos
 import com.gb.poplib.githubclient.mvp.presenter.ForksCountPresenter
@@ -12,7 +13,7 @@ import com.gb.poplib.githubclient.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class ForksCountFragment : MvpAppCompatFragment(), ForksCountView, BackButtonListener {
+class ForksCountFragment() : MvpAppCompatFragment(), ForksCountView, BackButtonListener {
 
     companion object {
         private const val KEY_FORKS_COUNT = "KEY_FORKS_COUNT"
@@ -32,7 +33,10 @@ class ForksCountFragment : MvpAppCompatFragment(), ForksCountView, BackButtonLis
         get() = _binding!!
 
     val presenter: ForksCountPresenter by moxyPresenter {
-        ForksCountPresenter()
+        val repos = arguments?.getParcelable<GithubUserRepos>(KEY_FORKS_COUNT) as GithubUserRepos
+        ForksCountPresenter(repos).apply {
+            App.instance.reposSubcomponent?.inject(this)
+        }
     }
 
     override fun onCreateView(
@@ -43,13 +47,6 @@ class ForksCountFragment : MvpAppCompatFragment(), ForksCountView, BackButtonLis
         _binding = it
     }.root
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<GithubUserRepos>(KEY_FORKS_COUNT)?.let {
-            presenter.showForksCount(it)
-        }
-    }
 
     override fun countForks(forks: String) {
         binding.tvForksCount.text = forks
